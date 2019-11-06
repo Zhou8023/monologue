@@ -8,9 +8,34 @@ const router = new VueRouter({
         // 动态路径参数 以冒号开头
         {
             path: '/',
-            component: ()=>import('../pages/Home')
+            component: () => import('../pages/login/Login')
+        },
+        {
+            path: '/home',
+            component: () => import('../pages/home/Home')
+        },
+        {
+            path: '*',
+            redirect: '/'
         }
     ]
+})
+
+router.beforeEach((to, from, next) => {
+    var user = localStorage.getItem('name')
+    if (user) {
+        if (to.path === '/') {
+            next({ path: '/home' })
+        } else {
+            next()
+        }
+    } else {
+        if (to.path !== '/') {
+            next({ path: '/' })
+        } else {
+            next()
+        }
+    }
 })
 
 export default router

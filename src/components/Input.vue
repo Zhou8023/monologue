@@ -1,6 +1,6 @@
 <template>
-  <div class="Home">
-    Home
+  <div class="inputDiv">
+      inputDiv
   </div>
 </template>
 
