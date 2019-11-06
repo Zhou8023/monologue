@@ -1,0 +1,17 @@
+<template>
+  <div id="app">
+    <router-view />
+  </div>
+</template>
+
+<style>
+*{
+  margin :0;
+  padding :0;
+  list-style: none;
+  font-size: 1rem;
+}
+html,body,#app{
+  height: 100%;
+}
+</style>
