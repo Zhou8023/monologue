@@ -8,29 +8,29 @@
       :before-close="handleClose"
     >
       <el-form
-        :model="$store.state.ruleForm"
-        :rules="$store.state.rules"
+        :model="ruleForm"
+        :rules="rules"
         ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm"
       >
         <el-form-item label="供应商名称" prop="supplierName">
-          <el-input v-model="$store.state.ruleForm.supplierName"></el-input>
+          <el-input v-model="ruleForm.supplierName"></el-input>
         </el-form-item>
         <el-form-item label="联系人" prop="supplierContact">
-          <el-input v-model="$store.state.ruleForm.supplierContact"></el-input>
+          <el-input v-model="ruleForm.supplierContact"></el-input>
         </el-form-item>
         <el-form-item label="联系电话" prop="phone">
-          <el-input v-model="$store.state.ruleForm.phone"></el-input>
+          <el-input v-model="ruleForm.phone"></el-input>
         </el-form-item>
-        <el-form-item label="地址">
-          <el-input v-model="$store.state.ruleForm.address"></el-input>
+        <el-form-item label="地址" prop="address">
+          <el-input v-model="ruleForm.address"></el-input>
         </el-form-item>
-        <el-form-item label="描述信息">
-          <el-input v-model="$store.state.ruleForm.description"></el-input>
+        <el-form-item label="描述信息" prop="description">
+          <el-input v-model="ruleForm.description"></el-input>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-radio-group v-model="$store.state.ruleForm.status">
+        <el-form-item label="状态" prop="status">
+          <el-radio-group v-model="ruleForm.status">
             <el-radio label="1">启用</el-radio>
             <el-radio label="0">禁用</el-radio>
           </el-radio-group>
@@ -51,7 +51,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text">删除</el-button>
-            <el-button type="text">编辑</el-button>
+            <el-button @click="tablePush(scope.row)" type="text">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -63,7 +63,21 @@
 import { mapActions } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      ruleForm: {
+        supplierName: "",
+        supplierContact: "",
+        phone: "",
+        address: "",
+        description: "",
+        status: ""
+      },
+      rules: {
+        supplierName: [{ required: true, message: "请输入供应商名称" }],
+        supplierContact: [{ required: true, message: "请输入联系人" }],
+        phone: [{ required: true, message: "请输入联系电话" }]
+      }
+    };
   },
   created() {
     var url = "http://49.235.147.95:3001/api/supplier/list";
@@ -76,7 +90,9 @@ export default {
       console.log(row);
     },
     //上传按钮
-    tablePush() {
+    tablePush(row) {
+      console.log(row)
+      this.ruleForm = row
       this.$store.state.dialogVisible = true;
     },
     //取消添加
@@ -88,13 +104,13 @@ export default {
     confirmAdd(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          this.$store.state.dialogVisible = false;
+          this.$refs[formName].resetFields();
         } else {
           console.log("error submit!!");
           return false;
         }
       });
-      this.$store.state.dialogVisible = false;
     },
     handleClose(done) {
       this.$confirm("确认关闭？")

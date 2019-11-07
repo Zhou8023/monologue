@@ -8,26 +8,7 @@ const store = new Vuex.Store({
     state: {
         username: '',
         tableData: [],
-        dialogVisible: false,
-        ruleForm: {
-            supplierName: '',
-            supplierContact: '',
-            phone: '',
-            address: '',
-            description: '',
-            status: ''
-        },
-        rules: {
-            supplierName: [
-                { required: true, message: '请输入供应商名称' }
-            ],
-            supplierContact: [
-                { required: true, message: '请输入联系人' }
-            ],
-            phone: [
-                { required: true, message: '请输入联系电话' }
-            ]
-        }
+        dialogVisible: false
     },
     mutations: {
         setName(state, name) {
